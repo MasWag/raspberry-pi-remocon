@@ -1,0 +1,6 @@
+name,sw_number
+light_on,1
+light_off,2
+aircon_heater,3
+aircon_cooler,4
+aircon_stop,5

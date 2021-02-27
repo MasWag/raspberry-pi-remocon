@@ -1,0 +1,65 @@
+This is a technical note on the GPIO on raspberry pi. The following is the whole script.
+
+#+BEGIN_SRC sh :tangle template.sh :noweb yes :shebang #!/bin/sh
+  # Export the port
+  <<EXPORT>>
+
+  # Set the value
+  <<SET_VALUE>>
+
+  # Output the value
+  <<WRITE_VALUE>>
+
+  # Unexport the port
+  <<UNEXPORT>>
+#+END_SRC
+
+* Assumption
+
+In this document, we assume that the user is in the gpio group. This can be checked by the following command.
+
+#+BEGIN_SRC sh
+id | grep -o gpio
+#+END_SRC
+
+* Export the port
+
+First, we export the GPIO port if the port is not exported yet. We note that we need some sleep between each I/O.
+
+#+NAME: EXPORT
+#+BEGIN_SRC sh
+  if [ ! -d "/sys/class/gpio/gpio$port" ]; then
+      echo "$port" > /sys/class/gpio/export
+      sleep 0.1
+  fi
+#+END_SRC
+
+* Set the value
+
+Then, we set the value to output. In this example, we output on.
+
+#+NAME: SET_VALUE
+#+BEGIN_SRC sh
+  echo 1 > "/sys/class/gpio/gpio$port/value"
+  sleep 0.1
+#+END_SRC
+
+* Output the value
+
+After setting the value, we output the value.
+
+#+NAME: WRITE_VALUE
+#+BEGIN_SRC sh
+  echo out > "/sys/class/gpio/gpio$port/direction"
+  sleep 0.1
+#+END_SRC
+
+* Unexport the port
+
+Finally, we unexport the port.
+
+#+NAME: UNEXPORT
+#+BEGIN_SRC sh
+  echo "$port" > /sys/class/gpio/unexport
+  sleep 0.1
+#+END_SRC
