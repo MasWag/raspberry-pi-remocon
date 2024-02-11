@@ -2,7 +2,7 @@
 # Export the port
 if [ ! -d "/sys/class/gpio/gpio$port" ]; then
     echo "$port" > /sys/class/gpio/export
-    sleep 0.1
+    sleep 0.3
 fi
 
 # Set the value
